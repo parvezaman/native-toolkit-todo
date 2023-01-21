@@ -1,8 +1,27 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../redux/taskSlice';
 
 const Header = () => {
-    const [myTask, setMyTask] = useState()
+    const [myTask, setMyTask] = useState();
+    const dispath = useDispatch()
+
+    const onSubmitTask = () => {
+        if (myTask.trim().length === 0) {
+            alert("Please add a task")
+            setMyTask("")
+            return
+        }
+
+        dispath(
+            addTask({
+                task: myTask
+            })
+        )
+        setMyTask("")
+    }
+
     return (
         <View >
             <Text style={styles.headerText}>
@@ -21,7 +40,7 @@ const Header = () => {
 
                 <TouchableOpacity
                     style={styles.touchableStyle}
-                    onPress={() => { }}
+                    onPress={onSubmitTask}
                 >
                     <Text style={styles.touchableTextStyle}>Add</Text>
                 </TouchableOpacity>

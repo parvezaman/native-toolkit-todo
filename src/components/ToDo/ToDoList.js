@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteTask } from '../../redux/taskSlice';
 
 const data = [
     {
@@ -20,13 +22,25 @@ const data = [
 
 const ToDoList = () => {
 
+    const myTasks = useSelector((state) => state.tasks)
+
+    const dispath = useDispatch()
+
+    const deleteItem = (id) => {
+        dispath(
+            deleteTask({
+                id: id
+            })
+        )
+    }
+
     const itemToRender = ({ item }) => {
         return (
             <View style={styles.item}>
                 <Text style={styles.taskTitle}>{item.title}</Text>
                 <TouchableOpacity
                     style={styles.deleteButton}
-                    onPress={() => { }}
+                    onPress={() => deleteItem(item.id)}
                 >
                     {/* <Text style={styles.taskDelete}>Delete</Text> */}
                     <Ionicons name="trash" size={24} color="red" />
@@ -34,12 +48,13 @@ const ToDoList = () => {
             </View>
         )
     }
+
     return (
         <View>
             <FlatList
-                data={data}
+                data={myTasks}
                 renderItem={itemToRender}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.id}
             />
         </View>
     )

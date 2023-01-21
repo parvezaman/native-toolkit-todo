@@ -1,6 +1,8 @@
 import { SafeAreaView, View } from 'react-native';
+import { Provider } from 'react-redux';
 import Header from './src/components/Common/Header';
 import ToDoList from './src/components/ToDo/ToDoList';
+import store from './src/redux/store';
 
 export default function App() {
 
@@ -14,8 +16,8 @@ export default function App() {
   };
 
   return (
-    <View >
+    <Provider store={store} >
       <RootApp />
-    </View>
+    </Provider>
   );
 }
