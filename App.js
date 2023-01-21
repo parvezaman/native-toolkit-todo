@@ -1,5 +1,6 @@
 import { SafeAreaView, View } from 'react-native';
 import Header from './src/components/Common/Header';
+import ToDoList from './src/components/ToDo/ToDoList';
 
 export default function App() {
 
@@ -7,6 +8,7 @@ export default function App() {
     return (
       <SafeAreaView>
         <Header />
+        <ToDoList />
       </SafeAreaView>
     )
   };

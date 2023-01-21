@@ -44,10 +44,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 10,
         margin: 10,
-        width: '80%',
+        width: '100%',
         borderRadius: 5
     },
     textBoxContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#007478",
         padding: 10,
         margin: 10,
-        width: "80%",
+        width: "100%",
         borderRadius: 5,
         alignItems: "center"
     },
