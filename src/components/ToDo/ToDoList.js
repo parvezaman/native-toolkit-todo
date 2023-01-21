@@ -1,27 +1,10 @@
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTask } from '../../redux/taskSlice';
 
-const data = [
-    {
-        id: 1,
-        title: "learn native"
-    },
-    {
-        id: 2,
-        title: "learn redux"
-    },
-    {
-
-        id: 3,
-        title: "learn thunk"
-    }
-]
-
-const ToDoList = () => {
-
+const ToDoList = (props) => {
     const myTasks = useSelector((state) => state.tasks)
 
     const dispath = useDispatch()
@@ -38,13 +21,23 @@ const ToDoList = () => {
         return (
             <View style={styles.item}>
                 <Text style={styles.taskTitle}>{item.title}</Text>
-                <TouchableOpacity
-                    style={styles.deleteButton}
-                    onPress={() => deleteItem(item.id)}
-                >
-                    {/* <Text style={styles.taskDelete}>Delete</Text> */}
-                    <Ionicons name="trash" size={24} color="red" />
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.individualButton}
+                        onPress={() => deleteItem(item.id)}
+                    >
+                        <Ionicons name="trash" size={24} color="red" />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.individualButton}
+                        onPress={() => {
+                            props.setIsEdit(true)
+                            props.setTaskId(item.id)
+                        }}
+                    >
+                        <Feather name="edit" size={24} color="black" />
+                    </TouchableOpacity>
+                </View>
             </View>
         )
     }
@@ -80,7 +73,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: "red"
     },
-    deleteButton: {
-
+    individualButton: {
+        paddingHorizontal: 8
+    },
+    buttonContainer: {
+        flexDirection: 'row',
     }
 })

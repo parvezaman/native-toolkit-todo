@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { addTask } from '../../redux/taskSlice';
+import { addTask, updateTask } from '../../redux/taskSlice';
 
-const Header = () => {
+const Header = (props) => {
     const [myTask, setMyTask] = useState();
+    const [updatedTitle, setUpdatedTitle] = useState()
     const dispath = useDispatch()
 
     const onSubmitTask = () => {
@@ -22,29 +23,66 @@ const Header = () => {
         setMyTask("")
     }
 
+    const onUpdateTask = () => {
+
+        dispath(
+            updateTask(
+                {
+                    id: props.taskId,
+                    title: updatedTitle
+                }
+            )
+        )
+
+        props.setIsEdit(false)
+    }
+
     return (
         <View >
             <Text style={styles.headerText}>
                 Plan My Day
             </Text>
 
-            <View
-                style={styles.textBoxContainer}
-            >
-                <TextInput
-                    style={styles.inputBox}
-                    placeholder="Add a task"
-                    onChangeText={setMyTask}
-                    value={myTask}
-                />
-
-                <TouchableOpacity
-                    style={styles.touchableStyle}
-                    onPress={onSubmitTask}
+            {props.isEdit != true ? (
+                <View
+                    style={styles.textBoxContainer}
                 >
-                    <Text style={styles.touchableTextStyle}>Add</Text>
-                </TouchableOpacity>
-            </View>
+                    <TextInput
+                        style={styles.inputBox}
+                        placeholder="Add a task"
+                        onChangeText={setMyTask}
+                        value={myTask}
+                    />
+
+                    <TouchableOpacity
+                        style={styles.touchableStyle}
+                        onPress={onSubmitTask}
+                    >
+                        <Text style={styles.touchableTextStyle}>Add</Text>
+                    </TouchableOpacity>
+                </View>
+            )
+                :
+                (
+                    <View
+                        style={styles.textBoxContainer}
+                    >
+                        <TextInput
+                            style={styles.inputBox}
+                            placeholder="type new title..."
+                            onChangeText={setUpdatedTitle}
+                            value={updatedTitle}
+                        />
+
+                        <TouchableOpacity
+                            style={styles.touchableStyle}
+                            onPress={onUpdateTask}
+                        >
+                            <Text style={styles.touchableTextStyle}>Update</Text>
+                        </TouchableOpacity>
+                    </View>
+                )
+            }
         </View>
     )
 }
